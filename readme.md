@@ -19,6 +19,13 @@ Prelude> :l filename
 Prelude> :r
 ```
 
+* Run a .hs file as a script
+
+```[haskell]
+Prelude> :script filename.hs
+```
+
+
 * Exit ghci
 
 ```[haskell]
