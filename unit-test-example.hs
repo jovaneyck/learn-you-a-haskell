@@ -14,7 +14,9 @@ import Test.HUnit
     --terse syntax
     terseTests = 
         test [  "A test" ~: 5 ~=? (3 + 3), 
-                "Another test" ~: 3 ~=? 5
+                "Another test" 
+                    ~: 3 
+                    ~=? 5
             ]
 
 :}
