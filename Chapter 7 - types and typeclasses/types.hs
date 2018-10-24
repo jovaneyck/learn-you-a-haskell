@@ -1,3 +1,5 @@
+:l Shapes.hs
+
 import Test.HUnit
 import Shapes
 import qualified Data.Map as Map
@@ -50,6 +52,38 @@ lockers =
         ,(110,(Taken, "99292"))
         ]                          
 
+--recursive data types        
+infixr 5 :-: --fixity, nevermind :)
+data MyList a = Empty | a :-: (MyList a) deriving(Show,Read,Eq,Ord)
+
+infixr 5 ^++
+(^++) :: MyList a -> MyList a -> MyList a
+Empty ^++ ys = ys
+(x :-: xs) ^++ ys = x :-: (xs ^++ ys) --pattern match on value constructors
+
+--Binary tree example
+data Tree a = EmptyTree | Node a (Tree a) (Tree a) deriving(Show,Eq)
+
+singleton :: a -> Tree a
+singleton v = Node v EmptyTree EmptyTree
+
+treeInsert :: (Ord a) => a -> Tree a -> Tree a
+treeInsert v EmptyTree = singleton v
+treeInsert v t@(Node n l r)
+    | v == n = t
+    | v < n = (Node n (treeInsert v l) r)
+    | otherwise = (Node n l (treeInsert v r))
+
+treeElem :: (Ord a) => a -> Tree a -> Bool
+treeElem _ EmptyTree = False
+treeElem v (Node n l r)
+    | v == n = True
+    | v < n = treeElem v l
+    | otherwise = treeElem v r
+
+treeFromList :: (Ord a) => [a] -> Tree a
+treeFromList = foldr treeInsert EmptyTree
+
 tests = 
     test [  
         "A value constructor is just a function" 
@@ -69,7 +103,14 @@ tests =
             ~=? lockerLookup 101 lockers,
         "either - failure"
             ~: Left "Locker 100 is already taken!"
-            ~=? lockerLookup 100 lockers
+            ~=? lockerLookup 100 lockers,
+        "recursive data types and infix operators/value constructors"
+            ~: 1 :-: 2 :-: 3 :-: 4 :-: Empty
+            ~=? 1 :-: 2 :-: Empty ^++ 3 :-: 4 :-: Empty,
+        "binary trees"
+            ~: (True, False)
+            ~=? let tree = treeFromList [1..10] in
+                    (treeElem 8 tree, treeElem 11 tree)
     ]
 :}
 
