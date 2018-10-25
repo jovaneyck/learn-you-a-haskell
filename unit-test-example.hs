@@ -1,4 +1,4 @@
---stack install HUnit
+--stack install HUnit via λ stack install HUnit
 --stack ghci
 -- execute a .hs file as a script: ":script unit-test-example"
 import Test.HUnit
