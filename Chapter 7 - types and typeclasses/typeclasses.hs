@@ -58,7 +58,7 @@ truthyIf p ifBranch elseBranch =
 --    fmap :: (a -> b) -> f a -> f b
 -- f is in the TYPE DECLARATION, f is a TYPE CONSTRUCTOR (<> value constructor)
 -- Example type constructor: Maybe (NOT Maybe a):
---instance Functory Maybe where
+--instance Functor Maybe where
 --    fmap f (Just x) = Just $ f x
 --    fmap _  Nothing = Nothing
 
