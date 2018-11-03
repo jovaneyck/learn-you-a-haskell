@@ -29,7 +29,14 @@ tests = test [
         ~=? (+) <$> Just 3 <*> Just 5,
     "<$> applicative style"
         ~: ["ha?","ha!","ha.","heh?","heh!","heh.","hmm?","hmm!","hmm."]
-        ~=? (++) <$> ["ha", "heh", "hmm"] <*> ["?", "!", "."]
+        ~=? (++) <$> ["ha", "heh", "hmm"] <*> ["?", "!", "."],
+    "Applicative Function - pure"
+        ~: 3
+        ~=? let f = pure 3 in f "a random input",
+    "Applicative Function - <*>"
+        ~: (508, [8.0, 10.0, 2.5])
+        ~=? ( ((+) <$> (+3) <*> (*100) $ 5)
+            , ((\x y z -> [x,y,z]) <$> (+3) <*> (*2) <*> (/2) $ 5) )
     ]
 
 :}
