@@ -44,6 +44,7 @@ pure :: a -> f a
   * Maybe : computations that might have failed
   * List: non-deterministic computations
   * IO: values with side-effects
+  * -> (function application): context == "value" is not present yet, has to be applied to some input first
 
 Monads
 ---
@@ -53,4 +54,4 @@ Monads
 ```
 
 * We have a value with context and a function that takes a normal value and returns value with context. Enter: *bind*
-* Examples: Maybe, List
+* Examples: Maybe, List, Function application that read from the same input (Reader)
