@@ -53,7 +53,11 @@ tests = test [
         ~:  ( Just 14
             , Nothing)
         ~=? ( foldM binSmalls 0 [2,8,3,1]
-            , foldM binSmalls 0 [2,10,3,1])
+            , foldM binSmalls 0 [2,10,3,1]),
+    "<=< monadic function composition"
+        ~: Just 401
+        ~=? let f = (\x -> return $ x + 1) <=< (\x -> return $ x * 100)
+            in Just 4 >>= f
     ]
 
 :}
