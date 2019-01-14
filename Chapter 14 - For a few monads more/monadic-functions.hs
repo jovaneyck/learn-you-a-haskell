@@ -4,7 +4,7 @@ import Control.Monad.Writer
 
 :{
 
---Monad now _hase_ type constraints: Applicative m => Monad m
+--Monad now _has_ type constraints: Applicative m => Monad m
 --so "liftM" (=fmap) & "ap" (=<*>) makes no sense anymore
 
 --normal value in, monadic Bool out -> can filterM
@@ -57,6 +57,14 @@ tests = test [
     "<=< monadic function composition"
         ~: Just 401
         ~=? let f = (\x -> return $ x + 1) <=< (\x -> return $ x * 100)
+            in Just 4 >>= f,
+    "combining fold and monadic composition"
+        ~: Just 7
+        ~=? let f = foldr (<=<) return [(\x -> Just $ x + 1), (\x -> Just $ x + 2)]
+            in Just 4 >>= f,
+    "combining fold and monadic composition, even more generic"
+        ~: Just 14
+        ~=? let f = foldr (<=<) return (replicate 10 (\x -> Just $ x + 1))
             in Just 4 >>= f
     ]
 
